@@ -72,7 +72,7 @@ function Nav() {
         <a href="#" className="flex flex-col items-center leading-none shrink-0">
           <span className="font-display italic text-[10px] sm:text-[11px] tracking-[0.3em] text-foreground/50 uppercase">Maison</span>
           <span className="font-display text-xl sm:text-2xl lg:text-3xl tracking-[0.35em] uppercase text-foreground">Sibérie</span>
-          <span className="mt-1 text-[9px] tracking-[0.4em] text-gold uppercase">Красноярск · 2014</span>
+          <span className="mt-1 hidden sm:inline text-[9px] tracking-[0.4em] text-gold uppercase">Красноярск · 2014</span>
         </a>
         <div className="hidden lg:flex items-center justify-end gap-6 text-[12px] tracking-[0.22em] uppercase text-foreground/75">
           <a href="#delivery" className="hover:text-foreground transition">Доставка</a>
