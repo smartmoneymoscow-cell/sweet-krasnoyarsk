@@ -63,16 +63,16 @@ function TopBar() {
 function Nav() {
   return (
     <header className="sticky top-0 z-40 bg-cream/85 backdrop-blur-md border-b border-border/60">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 py-4 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-4">
-        <nav className="hidden lg:flex items-center gap-8 text-[12px] tracking-[0.22em] uppercase text-foreground/75">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 py-4 flex items-center justify-between gap-4 lg:grid lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+        <nav className="hidden lg:flex items-center gap-8 text-[12px] tracking-[0.22em] uppercase text-foreground/75 min-w-0">
           <a href="#collection" className="hover:text-foreground transition">Коллекция</a>
           <a href="#landmarks" className="hover:text-foreground transition">Достопримечательности</a>
           <a href="#story" className="hover:text-foreground transition">История</a>
         </nav>
-        <a href="#" className="flex flex-col items-center leading-none">
-          <span className="font-display italic text-[11px] tracking-[0.3em] text-foreground/50 uppercase">Maison</span>
-          <span className="font-display text-2xl sm:text-3xl tracking-[0.35em] uppercase text-foreground">Sibérie</span>
-          <span className="mt-1 text-[9px] tracking-[0.4em] text-gold uppercase">Красноярск · с 2014</span>
+        <a href="#" className="flex flex-col items-center leading-none shrink-0">
+          <span className="font-display italic text-[10px] sm:text-[11px] tracking-[0.3em] text-foreground/50 uppercase">Maison</span>
+          <span className="font-display text-xl sm:text-2xl lg:text-3xl tracking-[0.35em] uppercase text-foreground">Sibérie</span>
+          <span className="mt-1 text-[9px] tracking-[0.4em] text-gold uppercase">Красноярск · 2014</span>
         </a>
         <div className="hidden lg:flex items-center justify-end gap-6 text-[12px] tracking-[0.22em] uppercase text-foreground/75">
           <a href="#delivery" className="hover:text-foreground transition">Доставка</a>
@@ -83,7 +83,7 @@ function Nav() {
             <span>0</span>
           </button>
         </div>
-        <button className="lg:hidden justify-self-end text-foreground/70 text-xs tracking-[0.25em] uppercase">Меню</button>
+        <button className="lg:hidden text-foreground/70 text-[11px] tracking-[0.25em] uppercase shrink-0">Меню</button>
       </div>
     </header>
   );
@@ -193,7 +193,7 @@ function Hero({ active, setActive }: { active: number; setActive: (n: number) =>
             </div>
 
             {/* floating small card */}
-            <div className="hidden md:flex absolute -left-8 bottom-12 w-56 rounded-sm bg-cream/95 backdrop-blur border border-border shadow-xl p-4 gap-3 animate-float-slow">
+            <div className="hidden md:flex absolute -left-8 top-8 w-56 rounded-sm bg-cream/95 backdrop-blur border border-border shadow-xl p-4 gap-3 animate-float-slow">
               <div className="h-14 w-14 rounded-sm overflow-hidden shrink-0">
                 <img src={macarons} alt="" className="h-full w-full object-cover" />
               </div>
