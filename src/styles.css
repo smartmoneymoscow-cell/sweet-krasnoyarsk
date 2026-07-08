@@ -4,6 +4,28 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --font-display: "Cormorant Garamond", "Playfair Display", serif;
+  --font-sans: "Jost", "Inter", sans-serif;
+  --font-script: "Parisienne", cursive;
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility divider-ornament {
+  &::before, &::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  }
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 /*
  * Design system definition.
  *
@@ -63,25 +85,31 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  /* Ladurée-inspired premium pastel palette */
+  --background: oklch(0.985 0.008 75);          /* warm cream */
+  --foreground: oklch(0.24 0.03 25);            /* deep espresso brown */
+  --card: oklch(0.995 0.005 80);
+  --card-foreground: oklch(0.24 0.03 25);
+  --popover: oklch(0.995 0.005 80);
+  --popover-foreground: oklch(0.24 0.03 25);
+  --primary: oklch(0.86 0.055 155);             /* signature pistachio mint */
+  --primary-foreground: oklch(0.28 0.04 25);
+  --secondary: oklch(0.93 0.035 20);            /* soft rose */
+  --secondary-foreground: oklch(0.32 0.05 20);
+  --muted: oklch(0.955 0.012 70);
+  --muted-foreground: oklch(0.48 0.02 40);
+  --accent: oklch(0.78 0.09 65);                /* champagne gold */
+  --accent-foreground: oklch(0.22 0.02 30);
+  --gold: oklch(0.72 0.11 75);
+  --rose: oklch(0.83 0.08 15);
+  --pistachio: oklch(0.86 0.055 155);
+  --cream: oklch(0.985 0.008 75);
+  --blush: oklch(0.94 0.03 20);
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(0.99 0.005 80);
+  --border: oklch(0.9 0.02 60);
+  --input: oklch(0.92 0.015 60);
+  --ring: oklch(0.78 0.09 65);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -96,6 +124,52 @@
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
 }
+
+@theme inline {
+  --color-gold: var(--gold);
+  --color-rose: var(--rose);
+  --color-pistachio: var(--pistachio);
+  --color-cream: var(--cream);
+  --color-blush: var(--blush);
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-18px) rotate(2deg); }
+}
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(12px, -14px) rotate(-3deg); }
+}
+@keyframes shimmer-line {
+  0% { transform: scaleX(0); transform-origin: left; }
+  50% { transform: scaleX(1); transform-origin: left; }
+  50.01% { transform-origin: right; }
+  100% { transform: scaleX(0); transform-origin: right; }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes reveal-clip {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes ken-burns {
+  0% { transform: scale(1.08) translate(0, 0); }
+  100% { transform: scale(1.18) translate(-2%, -2%); }
+}
+
+@utility animate-float-slow { animation: float-slow 9s ease-in-out infinite; }
+@utility animate-drift { animation: drift 12s ease-in-out infinite; }
+@utility animate-fade-up { animation: fade-up 1s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@utility animate-reveal-clip { animation: reveal-clip 1.4s cubic-bezier(0.77, 0, 0.175, 1) both; }
+@utility animate-ken-burns { animation: ken-burns 12s ease-in-out infinite alternate; }
+@utility animate-marquee { animation: marquee 45s linear infinite; }
 
 .dark {
   --background: oklch(0.129 0.042 264.695);
