@@ -4,14 +4,6 @@ import { products, categories } from "@/lib/products";
 import { useCart } from "@/lib/cart";
 
 export const Route = createFileRoute("/collection")({
-  head: () => ({
-    meta: [
-      { title: "Коллекция — Пряничный Дом · Красноярск" },
-      { name: "description", content: "Каталог макарон, тортов, пряников и кофе на вынос от кондитерской Пряничный Дом. Фильтры, поиск и доставка по Красноярску." },
-      { property: "og:title", content: "Коллекция — Пряничный Дом" },
-      { property: "og:description", content: "Каталог кондитерских изделий и кофе с доставкой по Красноярску." },
-    ],
-  }),
   component: CollectionPage,
 });
 
