@@ -37,11 +37,16 @@ function CollectionPage() {
           </nav>
           <button
             onClick={() => setOpenCart(true)}
-            className="inline-flex items-center gap-2 rounded-full border border-foreground/25 px-4 py-2 text-[12px] tracking-[0.22em] uppercase hover:bg-foreground hover:text-cream transition"
+            className="relative inline-flex items-center gap-2 rounded-full border border-foreground/25 px-4 py-2 text-[12px] tracking-[0.22em] uppercase hover:bg-foreground hover:text-cream transition"
           >
             <span>Корзина</span>
             <span className="text-foreground/40">·</span>
             <span>{count}</span>
+            {count > 0 && (
+              <span className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center rounded-full bg-red-500 text-white text-[10px] font-bold animate-bounce">
+                {count}
+              </span>
+            )}
           </button>
         </div>
       </header>

@@ -43,6 +43,7 @@ function Index() {
       <Togo />
       <Delivery />
       <Salon />
+      <AppMockup />
       <Footer />
     </div>
   );
@@ -83,17 +84,27 @@ function Nav({ variant = "light" }: { variant?: "light" | "over" }) {
           <a href="#salon" className="hover:opacity-100 opacity-90 transition">Салон</a>
           <Link
             to="/collection"
-            className={`ml-2 inline-flex items-center gap-2 rounded-full px-4 py-2 transition-colors ${
+            className={`ml-2 relative inline-flex items-center gap-2 rounded-full px-4 py-2 transition-colors ${
               isOver ? "border border-cream/45 hover:bg-cream hover:text-foreground" : "border border-foreground/25 hover:bg-foreground hover:text-cream"
             }`}
           >
             <span>Корзина</span>
             <span className={isOver ? "text-cream/50" : "text-foreground/50"}>·</span>
             <span>{count}</span>
+            {count > 0 && (
+              <span className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center rounded-full bg-red-500 text-white text-[10px] font-bold animate-bounce">
+                {count}
+              </span>
+            )}
           </Link>
         </div>
-        <Link to="/collection" className={`xl:hidden text-[11px] tracking-[0.25em] uppercase shrink-0 ${isOver ? "text-cream" : "text-foreground/70"}`}>
+        <Link to="/collection" className={`xl:hidden relative text-[11px] tracking-[0.25em] uppercase shrink-0 ${isOver ? "text-cream" : "text-foreground/70"}`}>
           Корзина · {count}
+          {count > 0 && (
+            <span className="absolute -top-2 -right-3 h-5 w-5 flex items-center justify-center rounded-full bg-red-500 text-white text-[10px] font-bold animate-bounce">
+              {count}
+            </span>
+          )}
         </Link>
       </div>
     </header>
@@ -285,25 +296,34 @@ function Collection() {
   );
 }
 
-function SteamCup({ delay = 0 }: { delay?: number }) {
+function CoffeeCup() {
   return (
     <div className="relative w-full flex flex-col items-center">
-      <div className="relative h-32 sm:h-36 w-full pointer-events-none">
-        {[0, 1, 2].map((i) => (
+      {/* Steam animation */}
+      <div className="relative h-40 sm:h-48 w-full pointer-events-none">
+        {[0, 1, 2, 3].map((i) => (
           <span
             key={i}
-            className="absolute left-1/2 bottom-0 h-24 w-8 rounded-full bg-white/70 blur-md animate-steam"
+            className="absolute left-1/2 bottom-0 h-28 w-10 rounded-full bg-white/60 blur-lg animate-steam"
             style={{
-              animationDelay: `${delay + i * 0.9}s`,
-              animationDuration: `${3.6 + i * 0.4}s`,
+              animationDelay: `${i * 0.7}s`,
+              animationDuration: `${3.2 + i * 0.3}s`,
               // @ts-expect-error CSS var
-              "--steam-x": `${(i - 1) * 22}px`,
+              "--steam-x": `${(i - 1.5) * 18}px`,
             }}
           />
         ))}
       </div>
-      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-sm bg-[color-mix(in_oklab,var(--pistachio)_20%,var(--cream))] shadow-[0_30px_80px_-30px_rgba(80,60,30,0.35)]">
-        <img src={togo} alt="Кофе на вынос" loading="lazy" className="absolute inset-0 h-full w-full object-cover object-center" />
+      {/* Large coffee cup */}
+      <div className="relative w-full max-w-[380px] mx-auto">
+        <div className="relative aspect-square overflow-hidden rounded-[40px] bg-[color-mix(in_oklab,var(--pistachio)_15%,var(--cream))] shadow-[0_40px_100px_-40px_rgba(80,60,30,0.4)]">
+          <img src={togo} alt="Кофе в фирменном стаканчике" loading="lazy" className="absolute inset-0 h-full w-full object-cover object-center" />
+          <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-[color-mix(in_oklab,var(--cream)_60%,white)] opacity-40" />
+        </div>
+        <div className="absolute -top-2 inset-x-4 h-4 rounded-full bg-[color-mix(in_oklab,var(--cream)_90%,white)] shadow-md" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 bg-[color-mix(in_oklab,var(--pistachio)_40%,var(--cream))] px-6 py-3 rounded-full shadow-lg">
+          <span className="font-display text-sm tracking-[0.3em] uppercase text-foreground">Пряничный Дом</span>
+        </div>
       </div>
     </div>
   );
@@ -335,10 +355,8 @@ function Togo() {
             Заказать кофе →
           </Link>
         </div>
-        <div className="lg:col-span-7 grid grid-cols-3 gap-5 sm:gap-8">
-          <div className="translate-y-8"><SteamCup delay={0} /></div>
-          <div className="-translate-y-6"><SteamCup delay={0.6} /></div>
-          <div className="translate-y-4"><SteamCup delay={1.2} /></div>
+        <div className="lg:col-span-7 flex justify-center">
+          <CoffeeCup />
         </div>
       </div>
     </section>
@@ -404,6 +422,111 @@ function Salon() {
           <a href="#" className="mt-10 inline-flex items-center gap-3 rounded-full bg-foreground px-7 py-3.5 text-cream text-[12px] tracking-[0.28em] uppercase hover:bg-foreground/85 transition">
             Забронировать столик →
           </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AppMockup() {
+  const [activeItem, setActiveItem] = useState(0);
+  const menuItems = [
+    { name: "Макарон ассорти", price: "1 890 ₽", emoji: "🍰" },
+    { name: "Капучино роза", price: "390 ₽", emoji: "☕" },
+    { name: "Розовый Исполин", price: "3 400 ₽", emoji: "🎂" },
+    { name: "Сибирскийпряник", price: "890 ₽", emoji: "🍪" },
+  ];
+
+  useEffect(() => {
+    const id = setInterval(() => setActiveItem((n) => (n + 1) % menuItems.length), 2500);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <section className="relative py-24 sm:py-32 bg-[color-mix(in_oklab,var(--pistachio)_10%,var(--cream))] overflow-hidden">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 grid lg:grid-cols-2 gap-16 items-center">
+        {/* Left side - text */}
+        <div>
+          <div className="text-[11px] tracking-[0.4em] uppercase text-gold mb-5">Мобильное приложение</div>
+          <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl leading-[1.02] text-balance">
+            Заказывайте<br />из <em className="font-script text-gold" style={{ fontStyle: "italic" }}>кармана</em>
+          </h2>
+          <p className="mt-6 text-foreground/70 leading-relaxed max-w-md">
+            Все сладости Пряничного Дома в вашем телефоне. Выбирайте, заказывайте и получайте
+            доставку за 90 минут по Красноярску.
+          </p>
+          <button className="mt-10 inline-flex items-center gap-3 rounded-full bg-foreground px-8 py-4 text-cream text-[12px] tracking-[0.28em] uppercase hover:bg-foreground/85 transition">
+            Скачать приложение →
+          </button>
+        </div>
+
+        {/* Right side - iPhone mockup */}
+        <div className="flex justify-center">
+          <div className="relative">
+            {/* Phone frame */}
+            <div className="relative w-[280px] sm:w-[320px] bg-foreground rounded-[50px] p-3 shadow-[0_50px_120px_-40px_rgba(0,0,0,0.5)]">
+              {/* Screen */}
+              <div className="relative bg-cream rounded-[38px] overflow-hidden aspect-[9/19.5]">
+                {/* Status bar */}
+                <div className="bg-[color-mix(in_oklab,var(--pistachio)_20%,var(--cream))] px-6 pt-10 pb-4">
+                  <div className="font-display text-lg tracking-[0.25em] uppercase text-foreground">Пряничный Дом</div>
+                  <div className="text-[10px] tracking-[0.3em] text-gold uppercase">Меню</div>
+                </div>
+
+                {/* Menu items with animation */}
+                <div className="p-4 space-y-3">
+                  {menuItems.map((item, i) => (
+                    <div
+                      key={item.name}
+                      className={`flex items-center gap-3 p-3 rounded-2xl transition-all duration-500 ${
+                        i === activeItem
+                          ? "bg-[color-mix(in_oklab,var(--pistachio)_25%,var(--cream))] scale-[1.02] shadow-md"
+                          : "bg-white/50"
+                      }`}
+                    >
+                      <div className="h-12 w-12 rounded-xl bg-[color-mix(in_oklab,var(--pistachio)_30%,var(--cream))] flex items-center justify-center text-xl">
+                        {item.emoji}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-medium text-foreground truncate">{item.name}</div>
+                        <div className="text-xs text-foreground/60">{item.price}</div>
+                      </div>
+                      <button
+                        className={`h-8 w-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+                          i === activeItem
+                            ? "bg-foreground text-cream scale-110"
+                            : "bg-foreground/10 text-foreground"
+                        }`}
+                      >
+                        +
+                      </button>
+                    </div>
+                  ))}
+
+                  {/* Cart preview */}
+                  <div className="mt-4 bg-foreground rounded-2xl p-4 text-cream">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-[10px] tracking-[0.3em] uppercase text-cream/60">Корзина</div>
+                        <div className="font-display text-lg">2 товара</div>
+                      </div>
+                      <div className="font-display text-xl">2 280 ₽</div>
+                    </div>
+                    <button className="mt-3 w-full bg-[color-mix(in_oklab,var(--pistachio)_40%,var(--cream))] text-foreground rounded-full py-2.5 text-[11px] tracking-[0.25em] uppercase">
+                      Оформить →
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Notch */}
+              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-7 bg-foreground rounded-b-2xl" />
+            </div>
+
+            {/* Floating elements */}
+            <div className="absolute -top-6 -right-6 h-24 w-24 rounded-full bg-pistachio/30 blur-2xl animate-float-slow" />
+            <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-rose/25 blur-3xl animate-drift" />
+          </div>
         </div>
       </div>
     </section>
