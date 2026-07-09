@@ -1,29 +1,30 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import heroChapel from "@/assets/hero-chapel.jpg";
 import heroBridge from "@/assets/hero-bridge.jpg";
 import heroOpera from "@/assets/hero-opera.jpg";
 import macarons from "@/assets/macarons.jpg";
 import cake from "@/assets/cake.jpg";
-import coffee from "@/assets/coffee.jpg";
 import pryanik from "@/assets/pryanik.jpg";
 import interior from "@/assets/interior.jpg";
+import togo from "@/assets/togo-cup.jpg";
+import { useCart } from "@/lib/cart";
 
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
 const landmarks = [
-  { src: heroChapel, name: "Часовня Параскевы Пятницы", tag: "Ручная роспись глазурью" },
-  { src: heroBridge, name: "Коммунальный мост", tag: "Айсинг · сусальное золото" },
-  { src: heroOpera, name: "Театр оперы и балета", tag: "Пряник ручной работы" },
+  { src: heroChapel, name: "Часовня Параскевы Пятницы", tag: "Ручная роспись королевской глазурью" },
+  { src: heroBridge, name: "Коммунальный мост", tag: "Айсинг и сусальное золото" },
+  { src: heroOpera, name: "Театр оперы и балета", tag: "Медовый пряник ручной работы" },
 ];
 
-const collection = [
+const preview = [
   { img: macarons, title: "Макарон", subtitle: "Ассорти из 12 вкусов", price: "1 890 ₽" },
   { img: cake, title: "Розовый Исполин", subtitle: "Торт с малиной и розой", price: "3 400 ₽" },
-  { img: pryanik, title: "Сибирский пряник", subtitle: "Расписной, медовый", price: "890 ₽" },
-  { img: coffee, title: "Кофе Maison", subtitle: "Флэт уайт с фисташкой", price: "420 ₽" },
+  { img: pryanik, title: "Сибирский пряник", subtitle: "Медовый, расписной", price: "890 ₽" },
+  { img: togo, title: "Кофе на вынос", subtitle: "Флэт уайт с фисташкой", price: "420 ₽" },
 ];
 
 function Index() {
@@ -35,13 +36,11 @@ function Index() {
 
   return (
     <div className="min-h-screen bg-cream text-foreground font-sans overflow-x-hidden">
-      <TopBar />
-      <Nav />
       <Hero active={active} setActive={setActive} />
       <Marquee />
       <Story />
       <Collection />
-      <Landmarks />
+      <Togo />
       <Delivery />
       <Salon />
       <Footer />
@@ -49,41 +48,53 @@ function Index() {
   );
 }
 
-function TopBar() {
+function Nav({ variant = "light" }: { variant?: "light" | "over" }) {
+  const { count } = useCart();
+  const isOver = variant === "over";
   return (
-    <div className="hidden md:block bg-[color-mix(in_oklab,var(--pistachio)_35%,var(--cream))] text-foreground/70 text-[11px] tracking-[0.28em] uppercase">
-      <div className="mx-auto max-w-7xl px-6 py-2 flex items-center justify-between">
-        <span>Бесплатная доставка по Красноярску от 3 000 ₽</span>
-        <span className="text-foreground/50">Ежедневно с 9:00 до 22:00</span>
-      </div>
-    </div>
-  );
-}
-
-function Nav() {
-  return (
-    <header className="sticky top-0 z-40 bg-cream/85 backdrop-blur-md border-b border-border/60">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 py-4 flex items-center justify-between gap-4 lg:grid lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
-        <nav className="hidden lg:flex items-center gap-8 text-[12px] tracking-[0.22em] uppercase text-foreground/75 min-w-0">
-          <a href="#collection" className="hover:text-foreground transition">Коллекция</a>
-          <a href="#landmarks" className="hover:text-foreground transition">Достопримечательности</a>
-          <a href="#story" className="hover:text-foreground transition">История</a>
-        </nav>
-        <a href="#" className="flex flex-col items-center leading-none shrink-0">
-          <span className="font-display italic text-[10px] sm:text-[11px] tracking-[0.3em] text-foreground/50 uppercase">Maison</span>
-          <span className="font-display text-xl sm:text-2xl lg:text-3xl tracking-[0.35em] uppercase text-foreground">Sibérie</span>
-          <span className="mt-1 hidden sm:inline text-[9px] tracking-[0.4em] text-gold uppercase">Красноярск · 2014</span>
-        </a>
-        <div className="hidden lg:flex items-center justify-end gap-6 text-[12px] tracking-[0.22em] uppercase text-foreground/75">
-          <a href="#delivery" className="hover:text-foreground transition">Доставка</a>
-          <a href="#salon" className="hover:text-foreground transition">Салон</a>
-          <button className="ml-2 inline-flex items-center gap-2 rounded-full border border-foreground/25 px-4 py-2 hover:bg-foreground hover:text-cream transition-colors">
-            <span>Корзина</span>
-            <span className="text-foreground/50">·</span>
-            <span>0</span>
-          </button>
+    <header
+      className={
+        isOver
+          ? "absolute inset-x-0 top-0 z-30 text-cream"
+          : "sticky top-0 z-40 bg-cream/85 backdrop-blur-md border-b border-border/60 text-foreground"
+      }
+    >
+      {!isOver && (
+        <div className="hidden md:block bg-[color-mix(in_oklab,var(--pistachio)_35%,var(--cream))] text-foreground/70 text-[11px] tracking-[0.28em] uppercase">
+          <div className="mx-auto max-w-7xl px-6 py-2 flex items-center justify-between">
+            <span>Бесплатная доставка по Красноярску от 3 000 ₽</span>
+            <span className="text-foreground/50">Ежедневно с 9:00 до 22:00</span>
+          </div>
         </div>
-        <button className="lg:hidden text-foreground/70 text-[11px] tracking-[0.25em] uppercase shrink-0">Меню</button>
+      )}
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 py-5 flex items-center justify-between gap-4 lg:grid lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+        <nav className={`hidden lg:flex items-center gap-8 text-[12px] tracking-[0.22em] uppercase min-w-0 ${isOver ? "text-cream/85" : "text-foreground/75"}`}>
+          <Link to="/collection" className="hover:opacity-100 opacity-90 transition">Коллекция</Link>
+          <a href="#landmarks" className="hover:opacity-100 opacity-90 transition">Достопримечательности</a>
+          <a href="#story" className="hover:opacity-100 opacity-90 transition">История</a>
+        </nav>
+        <Link to="/" className="flex flex-col items-center leading-none shrink-0">
+          <span className={`font-script text-[13px] sm:text-[15px] tracking-normal ${isOver ? "text-cream/70" : "text-foreground/55"}`}>красноярская</span>
+          <span className={`font-display text-xl sm:text-2xl lg:text-3xl tracking-[0.35em] uppercase ${isOver ? "text-cream" : "text-foreground"}`}>Пряничный Дом</span>
+          <span className={`mt-1 hidden sm:inline text-[9px] tracking-[0.4em] uppercase ${isOver ? "text-cream/60" : "text-gold"}`}>с 2014 · Красноярск</span>
+        </Link>
+        <div className={`hidden lg:flex items-center justify-end gap-6 text-[12px] tracking-[0.22em] uppercase ${isOver ? "text-cream/85" : "text-foreground/75"}`}>
+          <a href="#delivery" className="hover:opacity-100 opacity-90 transition">Доставка</a>
+          <a href="#salon" className="hover:opacity-100 opacity-90 transition">Салон</a>
+          <Link
+            to="/collection"
+            className={`ml-2 inline-flex items-center gap-2 rounded-full px-4 py-2 transition-colors ${
+              isOver ? "border border-cream/45 hover:bg-cream hover:text-foreground" : "border border-foreground/25 hover:bg-foreground hover:text-cream"
+            }`}
+          >
+            <span>Корзина</span>
+            <span className={isOver ? "text-cream/50" : "text-foreground/50"}>·</span>
+            <span>{count}</span>
+          </Link>
+        </div>
+        <Link to="/collection" className={`lg:hidden text-[11px] tracking-[0.25em] uppercase shrink-0 ${isOver ? "text-cream" : "text-foreground/70"}`}>
+          Корзина · {count}
+        </Link>
       </div>
     </header>
   );
@@ -91,118 +102,95 @@ function Nav() {
 
 function Hero({ active, setActive }: { active: number; setActive: (n: number) => void }) {
   return (
-    <section className="relative">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 pt-10 lg:pt-16 pb-16 lg:pb-24 grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-        {/* Left copy */}
-        <div className="lg:col-span-5 relative z-10">
-          <div className="flex items-center gap-3 mb-8 animate-fade-up">
-            <span className="h-px w-10 bg-gold" />
-            <span className="text-[11px] tracking-[0.35em] uppercase text-gold">Nouvelle Collection · Hiver</span>
+    <section id="landmarks" className="relative h-[100svh] min-h-[640px] w-full overflow-hidden text-cream">
+      {/* Background slideshow — the "video" */}
+      <div className="absolute inset-0">
+        {landmarks.map((l, i) => (
+          <div
+            key={l.name}
+            className={`absolute inset-0 transition-opacity duration-[1600ms] ease-out ${i === active ? "opacity-100" : "opacity-0"}`}
+          >
+            <img
+              src={l.src}
+              alt={l.name}
+              className={`absolute inset-0 h-full w-full object-cover object-center ${i === active ? "animate-ken-burns" : ""}`}
+            />
           </div>
-          <h1 className="font-display text-[42px] sm:text-6xl lg:text-[76px] leading-[0.98] tracking-tight text-foreground text-balance animate-fade-up" style={{ animationDelay: "120ms" }}>
-            Пряничный <em className="font-script text-gold not-italic-fix" style={{ fontStyle: "italic" }}>Красноярск</em>
-            <br />
-            в каждой детали
-          </h1>
-          <p className="mt-7 max-w-md text-[15px] sm:text-base leading-relaxed text-foreground/70 animate-fade-up" style={{ animationDelay: "260ms" }}>
-            Дом кондитерских искусств, где сибирский мёд встречается с парижской школой.
-            Ручные пряники в форме городских достопримечательностей, макарон восемнадцати
-            вкусов и торты, которые превращают каждый день в маленький праздник.
-          </p>
-          <div className="mt-9 flex flex-wrap items-center gap-4 animate-fade-up" style={{ animationDelay: "400ms" }}>
-            <a href="#collection" className="group inline-flex items-center gap-3 rounded-full bg-foreground px-7 py-3.5 text-cream text-[12px] tracking-[0.28em] uppercase hover:bg-foreground/85 transition-all">
-              Смотреть коллекцию
-              <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
-            </a>
-            <a href="#landmarks" className="inline-flex items-center gap-3 text-[12px] tracking-[0.28em] uppercase text-foreground/75 hover:text-foreground border-b border-foreground/25 pb-1">
-              <PlayIcon /> Смотреть ролик
-            </a>
-          </div>
-          <div className="mt-14 grid grid-cols-3 gap-6 max-w-md animate-fade-up" style={{ animationDelay: "560ms" }}>
-            {[
-              ["12+", "лет мастерства"],
-              ["47", "авторских рецептов"],
-              ["24ч", "доставка по городу"],
-            ].map(([n, l]) => (
-              <div key={l}>
-                <div className="font-display text-3xl text-foreground">{n}</div>
-                <div className="mt-1 text-[10px] tracking-[0.22em] uppercase text-foreground/55">{l}</div>
-              </div>
-            ))}
+        ))}
+        {/* Overlay for legibility */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/20 to-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent" />
+      </div>
+
+      <Nav variant="over" />
+
+      {/* Floating pastel accents */}
+      <div aria-hidden className="pointer-events-none absolute -left-16 top-1/3 h-64 w-64 rounded-full bg-rose/25 blur-3xl animate-float-slow" />
+      <div aria-hidden className="pointer-events-none absolute -right-24 bottom-10 h-80 w-80 rounded-full bg-pistachio/25 blur-3xl animate-drift" />
+
+      {/* Copy overlay */}
+      <div className="relative z-10 h-full flex items-end">
+        <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 pb-24 sm:pb-28 lg:pb-32">
+          <div className="max-w-2xl">
+            <div className="flex items-center gap-3 mb-6 animate-fade-up">
+              <span className="h-px w-10 bg-gold" />
+              <span className="text-[11px] tracking-[0.35em] uppercase text-gold">Зимняя коллекция · Красноярск</span>
+            </div>
+            <h1
+              className="font-display text-[44px] sm:text-6xl lg:text-[86px] leading-[0.98] tracking-tight text-cream drop-shadow-[0_2px_20px_rgba(0,0,0,0.35)] text-balance animate-fade-up"
+              style={{ animationDelay: "120ms" }}
+            >
+              Пряничный{" "}
+              <em className="font-script text-gold not-italic" style={{ fontStyle: "italic" }}>
+                Красноярск
+              </em>
+              <br />
+              в каждой детали
+            </h1>
+            <p
+              className="mt-7 max-w-lg text-[15px] sm:text-base leading-relaxed text-cream/85 drop-shadow-[0_1px_10px_rgba(0,0,0,0.4)] animate-fade-up"
+              style={{ animationDelay: "260ms" }}
+            >
+              Дом кондитерских искусств, где сибирский мёд встречается с парижской школой.
+              Пряничные достопримечательности города, макарон восемнадцати вкусов и кофе на вынос —
+              с доставкой по Красноярску.
+            </p>
+            <div className="mt-9 flex flex-wrap items-center gap-4 animate-fade-up" style={{ animationDelay: "400ms" }}>
+              <Link
+                to="/collection"
+                className="group inline-flex items-center gap-3 rounded-full bg-cream px-7 py-3.5 text-foreground text-[12px] tracking-[0.28em] uppercase hover:bg-gold hover:text-cream transition-all"
+              >
+                Смотреть коллекцию
+                <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
+              </Link>
+              <a
+                href="#togo"
+                className="inline-flex items-center gap-3 text-[12px] tracking-[0.28em] uppercase text-cream/90 hover:text-cream border-b border-cream/40 pb-1"
+              >
+                Кофе на вынос
+              </a>
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* Right — animated landmark reel */}
-        <div className="lg:col-span-7 relative">
-          <div className="relative aspect-[4/5] sm:aspect-[5/6] lg:aspect-[4/5] w-full">
-            {/* frame ornaments */}
-            <div className="pointer-events-none absolute -top-4 -left-4 h-24 w-24 border-t border-l border-gold/60" />
-            <div className="pointer-events-none absolute -bottom-4 -right-4 h-24 w-24 border-b border-r border-gold/60" />
-            {/* floating pastel blobs */}
-            <div aria-hidden className="absolute -left-10 top-8 h-40 w-40 rounded-full bg-rose/40 blur-3xl animate-float-slow" />
-            <div aria-hidden className="absolute -right-8 -bottom-6 h-52 w-52 rounded-full bg-pistachio/50 blur-3xl animate-drift" />
-
-            <div className="relative h-full w-full overflow-hidden rounded-[2px] bg-muted shadow-[0_40px_120px_-30px_rgba(120,80,40,0.35)]">
-              {landmarks.map((l, i) => (
-                <div
-                  key={l.name}
-                  className={`absolute inset-0 transition-opacity duration-[1400ms] ease-out ${i === active ? "opacity-100" : "opacity-0"}`}
-                >
-                  <img
-                    src={l.src}
-                    alt={l.name}
-                    className={`h-full w-full object-cover ${i === active ? "animate-ken-burns" : ""}`}
-                  />
-                </div>
-              ))}
-              {/* overlay gradient for legibility */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
-
-              {/* caption */}
-              <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 text-cream">
-                <div className="flex items-end justify-between gap-4">
-                  <div>
-                    <div className="text-[10px] tracking-[0.35em] uppercase text-cream/70">
-                      Film · Пряничный город
-                    </div>
-                    <div className="font-display text-2xl sm:text-3xl mt-1 tracking-wide">
-                      {landmarks[active].name}
-                    </div>
-                    <div className="text-[11px] tracking-[0.22em] uppercase text-cream/70 mt-1">
-                      {landmarks[active].tag}
-                    </div>
-                  </div>
-                  <div className="flex gap-2">
-                    {landmarks.map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setActive(i)}
-                        aria-label={`Кадр ${i + 1}`}
-                        className={`h-[3px] transition-all rounded-full ${i === active ? "w-10 bg-cream" : "w-5 bg-cream/40"}`}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* play badge */}
-              <div className="absolute top-5 right-5 flex items-center gap-2 rounded-full bg-cream/85 backdrop-blur px-3 py-1.5 text-[10px] tracking-[0.25em] uppercase text-foreground">
-                <span className="h-1.5 w-1.5 rounded-full bg-rose animate-pulse" />
-                Live · Ателье
-              </div>
-            </div>
-
-            {/* floating small card */}
-            <div className="hidden md:flex absolute -left-8 top-8 w-56 rounded-sm bg-cream/95 backdrop-blur border border-border shadow-xl p-4 gap-3 animate-float-slow">
-              <div className="h-14 w-14 rounded-sm overflow-hidden shrink-0">
-                <img src={macarons} alt="" className="h-full w-full object-cover" />
-              </div>
-              <div className="min-w-0">
-                <div className="text-[10px] tracking-[0.22em] uppercase text-gold">Новинка</div>
-                <div className="font-display text-lg leading-tight truncate">Роза & Личи</div>
-                <div className="text-[11px] text-foreground/60">Макарон недели</div>
-              </div>
-            </div>
+      {/* Caption + dots */}
+      <div className="absolute inset-x-0 bottom-0 z-10">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 pb-6 flex items-end justify-between gap-6">
+          <div>
+            <div className="text-[10px] tracking-[0.35em] uppercase text-cream/70">Film · Пряничный город</div>
+            <div className="font-display text-xl sm:text-2xl mt-1 tracking-wide">{landmarks[active].name}</div>
+            <div className="text-[11px] tracking-[0.22em] uppercase text-cream/70 mt-0.5">{landmarks[active].tag}</div>
+          </div>
+          <div className="flex gap-2 pb-1">
+            {landmarks.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setActive(i)}
+                aria-label={`Кадр ${i + 1}`}
+                className={`h-[3px] transition-all rounded-full ${i === active ? "w-12 bg-cream" : "w-6 bg-cream/40"}`}
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -210,23 +198,8 @@ function Hero({ active, setActive }: { active: number; setActive: (n: number) =>
   );
 }
 
-function PlayIcon() {
-  return (
-    <span className="inline-flex items-center justify-center h-7 w-7 rounded-full border border-foreground/40">
-      <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><path d="M2 0.5 L9 5 L2 9.5 Z" /></svg>
-    </span>
-  );
-}
-
 function Marquee() {
-  const items = [
-    "Ручная работа",
-    "Сибирский мёд",
-    "Французская школа",
-    "Натуральные ингредиенты",
-    "Доставка за 90 минут",
-    "Индивидуальные заказы",
-  ];
+  const items = ["Ручная работа", "Сибирский мёд", "Французская школа", "Натуральные ингредиенты", "Доставка за 90 минут", "Кофе на вынос"];
   const row = [...items, ...items];
   return (
     <div className="border-y border-border/70 bg-[color-mix(in_oklab,var(--pistachio)_18%,var(--cream))] overflow-hidden">
@@ -246,7 +219,7 @@ function Story() {
   return (
     <section id="story" className="py-24 sm:py-32">
       <div className="mx-auto max-w-4xl px-6 text-center">
-        <div className="text-[11px] tracking-[0.4em] uppercase text-gold mb-6">Maison Sibérie · Est. 2014</div>
+        <div className="text-[11px] tracking-[0.4em] uppercase text-gold mb-6">Пряничный Дом · с 2014</div>
         <h2 className="font-display text-4xl sm:text-6xl leading-[1.05] text-foreground text-balance">
           Тонкое искусство<br />
           <em className="font-script text-gold" style={{ fontStyle: "italic" }}>сибирского</em> десерта
@@ -272,19 +245,20 @@ function Collection() {
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="flex items-end justify-between mb-12 gap-6 flex-wrap">
           <div>
-            <div className="text-[11px] tracking-[0.35em] uppercase text-gold mb-3">La Collection</div>
-            <h2 className="font-display text-4xl sm:text-5xl tracking-tight">Витрина сезона</h2>
+            <div className="text-[11px] tracking-[0.35em] uppercase text-gold mb-3">Витрина</div>
+            <h2 className="font-display text-4xl sm:text-5xl tracking-tight">Коллекция сезона</h2>
           </div>
-          <a href="#" className="text-[12px] tracking-[0.28em] uppercase text-foreground/70 hover:text-foreground border-b border-foreground/30 pb-1">
+          <Link to="/collection" className="text-[12px] tracking-[0.28em] uppercase text-foreground/70 hover:text-foreground border-b border-foreground/30 pb-1">
             Вся коллекция →
-          </a>
+          </Link>
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-8">
-          {collection.map((p, i) => (
-            <article
+          {preview.map((p, i) => (
+            <Link
+              to="/collection"
               key={p.title}
-              className="group cursor-pointer animate-fade-up"
+              className="group cursor-pointer animate-fade-up block"
               style={{ animationDelay: `${i * 120}ms` }}
             >
               <div className="relative aspect-[4/5] overflow-hidden bg-muted rounded-sm">
@@ -292,12 +266,9 @@ function Collection() {
                   src={p.img}
                   alt={p.title}
                   loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-105"
+                  className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-[1400ms] ease-out group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-foreground/25 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <button className="absolute inset-x-4 bottom-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 rounded-full bg-cream/95 backdrop-blur py-2.5 text-[11px] tracking-[0.28em] uppercase text-foreground">
-                  В корзину
-                </button>
               </div>
               <div className="pt-5 flex items-start justify-between gap-3">
                 <div className="min-w-0">
@@ -306,7 +277,7 @@ function Collection() {
                 </div>
                 <div className="text-[13px] tracking-wider text-foreground shrink-0 pt-1">{p.price}</div>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </div>
@@ -314,48 +285,60 @@ function Collection() {
   );
 }
 
-function Landmarks() {
+function SteamCup({ delay = 0 }: { delay?: number }) {
   return (
-    <section id="landmarks" className="relative py-24 sm:py-32 bg-[color-mix(in_oklab,var(--rose)_18%,var(--cream))]">
+    <div className="relative w-full flex flex-col items-center">
+      <div className="relative h-32 sm:h-36 w-full pointer-events-none">
+        {[0, 1, 2].map((i) => (
+          <span
+            key={i}
+            className="absolute left-1/2 bottom-0 h-24 w-8 rounded-full bg-white/70 blur-md animate-steam"
+            style={{
+              animationDelay: `${delay + i * 0.9}s`,
+              animationDuration: `${3.6 + i * 0.4}s`,
+              // @ts-expect-error CSS var
+              "--steam-x": `${(i - 1) * 22}px`,
+            }}
+          />
+        ))}
+      </div>
+      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-sm bg-[color-mix(in_oklab,var(--pistachio)_20%,var(--cream))] shadow-[0_30px_80px_-30px_rgba(80,60,30,0.35)]">
+        <img src={togo} alt="Кофе на вынос" loading="lazy" className="absolute inset-0 h-full w-full object-cover object-center" />
+      </div>
+    </div>
+  );
+}
+
+function Togo() {
+  return (
+    <section id="togo" className="relative py-24 sm:py-32 bg-[color-mix(in_oklab,var(--pistachio)_14%,var(--cream))] overflow-hidden">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 grid lg:grid-cols-12 gap-12 items-center">
         <div className="lg:col-span-5">
-          <div className="text-[11px] tracking-[0.4em] uppercase text-gold mb-5">Édition Krasnoyarsk</div>
+          <div className="text-[11px] tracking-[0.4em] uppercase text-gold mb-5">Кофе на вынос</div>
           <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl leading-[1.02] text-balance">
-            Наш город<br />из <em className="font-script text-gold" style={{ fontStyle: "italic" }}>пряника</em>
+            Тёплое утро<br />в <em className="font-script text-gold" style={{ fontStyle: "italic" }}>фирменном</em> стаканчике
           </h2>
           <p className="mt-6 text-foreground/70 leading-relaxed max-w-md">
-            Ограниченная серия пряничных достопримечательностей Красноярска. Часовня Параскевы Пятницы,
-            Коммунальный мост, Театр оперы и балета — каждая работа расписывается вручную и
-            упаковывается в фирменную коробку.
+            Каждый стакан — небольшая открытка из Красноярска: пряничный силуэт Часовни
+            Параскевы Пятницы, тёплое пистачное кольцо и золотое тиснение. Внутри — авторский
+            купаж на молоке или классика в стиле парижских бистро.
           </p>
-          <div className="mt-8 space-y-4">
-            {landmarks.map((l) => (
-              <div key={l.name} className="flex items-center gap-4 border-b border-foreground/15 pb-4">
-                <div className="h-14 w-14 rounded-sm overflow-hidden shrink-0">
-                  <img src={l.src} alt="" className="h-full w-full object-cover" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="font-display text-lg leading-tight truncate">{l.name}</div>
-                  <div className="text-[11px] tracking-[0.22em] uppercase text-foreground/55 mt-0.5">{l.tag}</div>
-                </div>
-                <div className="text-sm text-foreground/70 shrink-0">от 1 600 ₽</div>
-              </div>
-            ))}
-          </div>
+          <ul className="mt-8 space-y-3 text-sm text-foreground/75">
+            <li className="flex items-center gap-3"><span className="text-gold">✦</span> Флэт уайт с фисташкой · 420 ₽</li>
+            <li className="flex items-center gap-3"><span className="text-gold">✦</span> Капучино с розовым сиропом · 390 ₽</li>
+            <li className="flex items-center gap-3"><span className="text-gold">✦</span> Латте с солёной карамелью · 450 ₽</li>
+          </ul>
+          <Link
+            to="/collection"
+            className="mt-10 inline-flex items-center gap-3 rounded-full bg-foreground px-7 py-3.5 text-cream text-[12px] tracking-[0.28em] uppercase hover:bg-foreground/85 transition"
+          >
+            Заказать кофе →
+          </Link>
         </div>
-
-        <div className="lg:col-span-7 grid grid-cols-2 gap-4 sm:gap-6">
-          <div className="relative aspect-[3/4] overflow-hidden rounded-sm mt-8">
-            <img src={heroChapel} alt="Часовня" className="h-full w-full object-cover animate-ken-burns" loading="lazy" />
-          </div>
-          <div className="space-y-4 sm:space-y-6">
-            <div className="relative aspect-square overflow-hidden rounded-sm">
-              <img src={heroBridge} alt="Мост" className="h-full w-full object-cover" loading="lazy" />
-            </div>
-            <div className="relative aspect-[4/5] overflow-hidden rounded-sm">
-              <img src={heroOpera} alt="Опера" className="h-full w-full object-cover" loading="lazy" />
-            </div>
-          </div>
+        <div className="lg:col-span-7 grid grid-cols-3 gap-5 sm:gap-8">
+          <div className="translate-y-8"><SteamCup delay={0} /></div>
+          <div className="-translate-y-6"><SteamCup delay={0.6} /></div>
+          <div className="translate-y-4"><SteamCup delay={1.2} /></div>
         </div>
       </div>
     </section>
@@ -373,7 +356,7 @@ function Delivery() {
     <section id="delivery" className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="text-center mb-16">
-          <div className="text-[11px] tracking-[0.4em] uppercase text-gold mb-4">Livraison · Доставка</div>
+          <div className="text-[11px] tracking-[0.4em] uppercase text-gold mb-4">Доставка</div>
           <h2 className="font-display text-4xl sm:text-5xl">Четыре шага до десерта</h2>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -396,11 +379,11 @@ function Salon() {
     <section id="salon" className="relative">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 pb-24 sm:pb-32 grid lg:grid-cols-2 gap-12 items-center">
         <div className="relative aspect-[4/5] lg:aspect-[3/4] overflow-hidden rounded-sm order-2 lg:order-1">
-          <img src={interior} alt="Салон Maison Sibérie" className="h-full w-full object-cover" loading="lazy" />
+          <img src={interior} alt="Салон Пряничный Дом" className="absolute inset-0 h-full w-full object-cover object-center" loading="lazy" />
           <div className="absolute -bottom-4 -right-4 h-24 w-24 border-b border-r border-gold/60" />
         </div>
         <div className="order-1 lg:order-2 lg:pl-8">
-          <div className="text-[11px] tracking-[0.4em] uppercase text-gold mb-5">Le Salon</div>
+          <div className="text-[11px] tracking-[0.4em] uppercase text-gold mb-5">Салон</div>
           <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl leading-[1.02]">
             Приходите на<br />чай в наш <em className="font-script text-gold" style={{ fontStyle: "italic" }}>салон</em>
           </h2>
@@ -432,7 +415,7 @@ function Footer() {
     <footer className="bg-foreground text-cream/80">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 py-16 grid gap-12 md:grid-cols-4">
         <div className="md:col-span-2">
-          <div className="font-display text-3xl tracking-[0.3em] uppercase text-cream">Maison Sibérie</div>
+          <div className="font-display text-3xl tracking-[0.3em] uppercase text-cream">Пряничный Дом</div>
           <p className="mt-4 max-w-sm text-sm text-cream/60 leading-relaxed">
             Кондитерская, кофейня и мастерская пряничных чудес в самом сердце Красноярска.
           </p>
@@ -450,17 +433,17 @@ function Footer() {
         <div>
           <div className="text-[10px] tracking-[0.3em] uppercase text-cream/50 mb-4">Магазин</div>
           <ul className="space-y-2 text-sm">
-            <li>Макарон</li>
-            <li>Торты</li>
-            <li>Пряники</li>
-            <li>Кофе на вынос</li>
+            <li><Link to="/collection">Макарон</Link></li>
+            <li><Link to="/collection">Торты</Link></li>
+            <li><Link to="/collection">Пряники</Link></li>
+            <li><Link to="/collection">Кофе на вынос</Link></li>
           </ul>
         </div>
         <div>
           <div className="text-[10px] tracking-[0.3em] uppercase text-cream/50 mb-4">Контакты</div>
           <ul className="space-y-2 text-sm">
             <li>+7 (391) 200-45-67</li>
-            <li>hello@maison-siberie.ru</li>
+            <li>hello@pryanichny-dom.ru</li>
             <li>пр. Мира, 102</li>
             <li>Красноярск, 660049</li>
           </ul>
@@ -468,8 +451,8 @@ function Footer() {
       </div>
       <div className="border-t border-cream/10">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 py-6 flex flex-wrap items-center justify-between gap-3 text-[11px] tracking-[0.25em] uppercase text-cream/45">
-          <span>© 2026 Maison Sibérie</span>
-          <span className="font-script text-gold text-base tracking-normal normal-case">avec amour · Krasnoyarsk</span>
+          <span>© 2026 Пряничный Дом</span>
+          <span className="font-script text-gold text-base tracking-normal normal-case">с любовью · Красноярск</span>
           <span>Политика · Оферта</span>
         </div>
       </div>
