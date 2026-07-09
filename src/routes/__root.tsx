@@ -11,6 +11,8 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { CartProvider } from "../lib/cart";
+import { Snow } from "../components/Snow";
 
 function NotFoundComponent() {
   return (
@@ -77,14 +79,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Maison Sibérie — Кондитерская и кофейня в Красноярске" },
-      { name: "description", content: "Премиальная кондитерская Красноярска: пряничные достопримечательности города, макарон, торты и кофе с доставкой на дом." },
-      { name: "author", content: "Maison Sibérie" },
-      { property: "og:title", content: "Maison Sibérie — Кондитерская и кофейня" },
-      { property: "og:description", content: "Пряничные достопримечательности Красноярска, макарон и авторские десерты с доставкой." },
+      { title: "Пряничный Дом — Кондитерская и кофейня в Красноярске" },
+      { name: "description", content: "Премиальная кондитерская Красноярска: пряничные достопримечательности города, макарон, торты и кофе на вынос с доставкой на дом." },
+      { name: "author", content: "Пряничный Дом" },
+      { property: "og:title", content: "Пряничный Дом — Кондитерская и кофейня" },
+      { property: "og:description", content: "Пряничные достопримечательности Красноярска, макарон, торты и авторский кофе на вынос." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@MaisonSiberie" },
+      { name: "twitter:site", content: "@pryanichny_dom" },
     ],
     links: [
       {
@@ -125,8 +127,11 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <CartProvider>
+        <Snow />
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+      </CartProvider>
     </QueryClientProvider>
   );
 }
