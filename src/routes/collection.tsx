@@ -28,7 +28,7 @@ function CollectionPage() {
       <header className="sticky top-0 z-40 bg-cream/90 backdrop-blur-md border-b border-border/60">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 py-4 flex items-center justify-between gap-4">
           <Link to="/" className="flex flex-col leading-none">
-            <span className="font-display text-lg sm:text-xl tracking-[0.35em] uppercase text-foreground">Пряничный Дом</span>
+            <span className="font-display text-lg sm:text-xl tracking-[0.25em] sm:tracking-[0.3em] uppercase text-foreground">Пряничный Дом</span>
             <span className="text-[9px] tracking-[0.4em] text-gold uppercase mt-1">Красноярск</span>
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-[12px] tracking-[0.22em] uppercase text-foreground/75">

@@ -67,18 +67,18 @@ function Nav({ variant = "light" }: { variant?: "light" | "over" }) {
           </div>
         </div>
       )}
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 py-5 flex items-center justify-between gap-4 lg:grid lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
-        <nav className={`hidden lg:flex items-center gap-8 text-[12px] tracking-[0.22em] uppercase min-w-0 ${isOver ? "text-cream/85" : "text-foreground/75"}`}>
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 py-5 flex items-center justify-between gap-4 xl:grid xl:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+        <nav className={`hidden xl:flex items-center gap-8 text-[12px] tracking-[0.22em] uppercase min-w-0 ${isOver ? "text-cream/85" : "text-foreground/75"}`}>
           <Link to="/collection" className="hover:opacity-100 opacity-90 transition">Коллекция</Link>
           <a href="#landmarks" className="hover:opacity-100 opacity-90 transition">Достопримечательности</a>
           <a href="#story" className="hover:opacity-100 opacity-90 transition">История</a>
         </nav>
         <Link to="/" className="flex flex-col items-center leading-none shrink-0">
           <span className={`font-script text-[13px] sm:text-[15px] tracking-normal ${isOver ? "text-cream/70" : "text-foreground/55"}`}>красноярская</span>
-          <span className={`font-display text-xl sm:text-2xl lg:text-3xl tracking-[0.35em] uppercase ${isOver ? "text-cream" : "text-foreground"}`}>Пряничный Дом</span>
+          <span className={`font-display text-xl sm:text-2xl tracking-[0.25em] sm:tracking-[0.3em] xl:tracking-[0.35em] uppercase ${isOver ? "text-cream" : "text-foreground"}`}>Пряничный Дом</span>
           <span className={`mt-1 hidden sm:inline text-[9px] tracking-[0.4em] uppercase ${isOver ? "text-cream/60" : "text-gold"}`}>с 2014 · Красноярск</span>
         </Link>
-        <div className={`hidden lg:flex items-center justify-end gap-6 text-[12px] tracking-[0.22em] uppercase ${isOver ? "text-cream/85" : "text-foreground/75"}`}>
+        <div className={`hidden xl:flex items-center justify-end gap-6 text-[12px] tracking-[0.22em] uppercase ${isOver ? "text-cream/85" : "text-foreground/75"}`}>
           <a href="#delivery" className="hover:opacity-100 opacity-90 transition">Доставка</a>
           <a href="#salon" className="hover:opacity-100 opacity-90 transition">Салон</a>
           <Link
@@ -92,7 +92,7 @@ function Nav({ variant = "light" }: { variant?: "light" | "over" }) {
             <span>{count}</span>
           </Link>
         </div>
-        <Link to="/collection" className={`lg:hidden text-[11px] tracking-[0.25em] uppercase shrink-0 ${isOver ? "text-cream" : "text-foreground/70"}`}>
+        <Link to="/collection" className={`xl:hidden text-[11px] tracking-[0.25em] uppercase shrink-0 ${isOver ? "text-cream" : "text-foreground/70"}`}>
           Корзина · {count}
         </Link>
       </div>
