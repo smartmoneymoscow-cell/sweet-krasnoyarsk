@@ -5,5 +5,6 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 
 export default defineConfig({
+  base: "/sweet-krasnoyarsk/",
   plugins: [TanStackRouterVite({ quoteStyle: "double" }), react(), tailwindcss(), tsconfigPaths()],
 });
