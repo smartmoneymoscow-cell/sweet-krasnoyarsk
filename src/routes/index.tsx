@@ -305,7 +305,7 @@ function CoffeeCup() {
         {[0, 1, 2, 3, 4].map((i) => (
           <span
             key={i}
-            className="absolute bottom-0 rounded-full bg-white/50 blur-xl animate-steam"
+            className="absolute bottom-0 rounded-full bg-foreground/15 blur-xl animate-steam"
             style={{
               left: `${35 + i * 8}%`,
               width: `${28 + (i % 3) * 12}px`,
@@ -330,13 +330,13 @@ function CoffeeCup() {
       </div>
 
       {/* Brand label — CSS badge below cup, premium style */}
-      <div className="relative z-20 -mt-6 flex flex-col items-center">
+      <div className="relative z-20 mt-4 flex flex-col items-center">
         <div className="flex items-center gap-3">
           <span className="h-px w-8 bg-gold/60" />
           <span className="font-display text-[11px] tracking-[0.4em] uppercase text-gold">с 2014</span>
           <span className="h-px w-8 bg-gold/60" />
         </div>
-        <span className="mt-2 font-display text-lg sm:text-xl tracking-[0.3em] uppercase text-foreground/80">Пряничный Дом</span>
+        <span className="mt-2 font-display text-lg sm:text-xl tracking-[0.3em] uppercase text-foreground">Пряничный Дом</span>
         <span className="mt-1 font-script text-gold text-sm">Красноярск</span>
       </div>
     </div>
