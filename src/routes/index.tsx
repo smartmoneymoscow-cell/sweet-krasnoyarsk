@@ -68,8 +68,8 @@ function Nav({ variant = "light" }: { variant?: "light" | "over" }) {
           </div>
         </div>
       )}
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 py-5 flex items-center justify-between gap-4 xl:grid xl:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
-        <nav className={`hidden xl:flex items-center gap-8 text-[12px] tracking-[0.22em] uppercase min-w-0 ${isOver ? "text-cream/85" : "text-foreground/75"}`}>
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 py-5 flex items-center justify-between gap-4 xl:grid xl:grid-cols-[1fr_auto_1fr] xl:gap-16">
+        <nav className={`hidden xl:flex items-center gap-10 text-[12px] tracking-[0.22em] uppercase min-w-0 justify-end pe-8 ${isOver ? "text-cream/85" : "text-foreground/75"}`}>
           <Link to="/collection" className="hover:opacity-100 opacity-90 transition">Коллекция</Link>
           <a href="#landmarks" className="hover:opacity-100 opacity-90 transition">Достопримечательности</a>
           <a href="#story" className="hover:opacity-100 opacity-90 transition">История</a>
@@ -79,7 +79,7 @@ function Nav({ variant = "light" }: { variant?: "light" | "over" }) {
           <span className={`font-display text-xl sm:text-2xl tracking-[0.25em] sm:tracking-[0.3em] xl:tracking-[0.35em] uppercase ${isOver ? "text-cream" : "text-foreground"}`}>Пряничный Дом</span>
           <span className={`mt-1 hidden sm:inline text-[9px] tracking-[0.4em] uppercase ${isOver ? "text-cream/60" : "text-gold"}`}>с 2014 · Красноярск</span>
         </Link>
-        <div className={`hidden xl:flex items-center justify-end gap-6 text-[12px] tracking-[0.22em] uppercase ${isOver ? "text-cream/85" : "text-foreground/75"}`}>
+        <div className={`hidden xl:flex items-center justify-start gap-6 text-[12px] tracking-[0.22em] uppercase ps-8 ${isOver ? "text-cream/85" : "text-foreground/75"}`}>
           <a href="#delivery" className="hover:opacity-100 opacity-90 transition">Доставка</a>
           <a href="#salon" className="hover:opacity-100 opacity-90 transition">Салон</a>
           <Link
@@ -156,7 +156,7 @@ function Hero({ active, setActive }: { active: number; setActive: (n: number) =>
                 Красноярск
               </em>
               <br />
-              в каждой детали
+              <span className="block mt-2 sm:mt-3">в каждой детали</span>
             </h1>
             <p
               className="mt-7 max-w-lg text-[15px] sm:text-base leading-relaxed text-cream/85 drop-shadow-[0_1px_10px_rgba(0,0,0,0.4)] animate-fade-up"
@@ -434,7 +434,7 @@ function AppMockup() {
     { name: "Макарон ассорти", price: "1 890 ₽", emoji: "🍰" },
     { name: "Капучино роза", price: "390 ₽", emoji: "☕" },
     { name: "Розовый Исполин", price: "3 400 ₽", emoji: "🎂" },
-    { name: "Сибирскийпряник", price: "890 ₽", emoji: "🍪" },
+    { name: "Сибирский пряник", price: "890 ₽", emoji: "🍪" },
   ];
 
   useEffect(() => {
