@@ -300,27 +300,27 @@ function Collection() {
 function CoffeeCup() {
   return (
     <div className="relative w-full flex flex-col items-center justify-center">
-      {/* Steam wisps rising from cup rim */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[320px] h-52 pointer-events-none z-10">
-        {[0, 1, 2, 3, 4].map((i) => (
-          <span
-            key={i}
-            className="absolute bottom-0 rounded-full bg-foreground/15 blur-xl animate-steam"
-            style={{
-              left: `${35 + i * 8}%`,
-              width: `${28 + (i % 3) * 12}px`,
-              height: `${60 + (i % 2) * 30}px`,
-              animationDelay: `${i * 0.6}s`,
-              animationDuration: `${2.8 + i * 0.4}s`,
-              // @ts-expect-error CSS var
-              "--steam-x": `${(i - 2) * 12}px`,
-            }}
-          />
-        ))}
-      </div>
-
       {/* Cup image — transparent cutout, large */}
       <div className="relative w-full max-w-[340px] sm:max-w-[400px] mx-auto">
+        {/* Steam wisps — positioned at cup rim, rising upward */}
+        <div className="absolute -top-20 left-0 right-0 h-40 pointer-events-none z-10 overflow-visible">
+          {[0, 1, 2, 3, 4].map((i) => (
+            <span
+              key={i}
+              className="absolute bottom-0 rounded-full blur-lg animate-steam"
+              style={{
+                left: `${30 + i * 10}%`,
+                width: `${20 + (i % 3) * 10}px`,
+                height: `${40 + (i % 2) * 20}px`,
+                animationDelay: `${i * 0.7}s`,
+                animationDuration: `${2.5 + i * 0.5}s`,
+                background: `rgba(180, 160, 140, ${0.25 + (i % 3) * 0.1})`,
+                // @ts-expect-error CSS var
+                "--steam-x": `${(i - 2) * 10}px`,
+              }}
+            />
+          ))}
+        </div>
         <img
           src={cupCutout}
           alt="Кофе в фирменном картонном стаканчике"
