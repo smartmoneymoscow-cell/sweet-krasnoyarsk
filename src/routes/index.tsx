@@ -8,6 +8,7 @@ import cake from "@/assets/cake.jpg";
 import pryanik from "@/assets/pryanik.jpg";
 import interior from "@/assets/interior.jpg";
 import togo from "@/assets/togo-cup.jpg";
+import cupCutout from "@/assets/cup-cutout.png";
 import { useCart } from "@/lib/cart";
 
 export const Route = createFileRoute("/")({
@@ -298,32 +299,45 @@ function Collection() {
 
 function CoffeeCup() {
   return (
-    <div className="relative w-full flex flex-col items-center">
-      {/* Steam animation */}
-      <div className="relative h-40 sm:h-48 w-full pointer-events-none">
-        {[0, 1, 2, 3].map((i) => (
+    <div className="relative w-full flex flex-col items-center justify-center">
+      {/* Steam wisps rising from cup rim */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[320px] h-52 pointer-events-none z-10">
+        {[0, 1, 2, 3, 4].map((i) => (
           <span
             key={i}
-            className="absolute left-1/2 bottom-0 h-28 w-10 rounded-full bg-white/60 blur-lg animate-steam"
+            className="absolute bottom-0 rounded-full bg-white/50 blur-xl animate-steam"
             style={{
-              animationDelay: `${i * 0.7}s`,
-              animationDuration: `${3.2 + i * 0.3}s`,
+              left: `${35 + i * 8}%`,
+              width: `${28 + (i % 3) * 12}px`,
+              height: `${60 + (i % 2) * 30}px`,
+              animationDelay: `${i * 0.6}s`,
+              animationDuration: `${2.8 + i * 0.4}s`,
               // @ts-expect-error CSS var
-              "--steam-x": `${(i - 1.5) * 18}px`,
+              "--steam-x": `${(i - 2) * 12}px`,
             }}
           />
         ))}
       </div>
-      {/* Large coffee cup */}
-      <div className="relative w-full max-w-[380px] mx-auto">
-        <div className="relative aspect-square overflow-hidden rounded-[40px] bg-[color-mix(in_oklab,var(--pistachio)_15%,var(--cream))] shadow-[0_40px_100px_-40px_rgba(80,60,30,0.4)]">
-          <img src={togo} alt="Кофе в фирменном стаканчике" loading="lazy" className="absolute inset-0 h-full w-full object-cover object-center" />
-          <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-[color-mix(in_oklab,var(--cream)_60%,white)] opacity-40" />
+
+      {/* Cup image — transparent cutout, large */}
+      <div className="relative w-full max-w-[340px] sm:max-w-[400px] mx-auto">
+        <img
+          src={cupCutout}
+          alt="Кофе в фирменном картонном стаканчике"
+          loading="lazy"
+          className="w-full h-auto drop-shadow-[0_30px_60px_rgba(80,60,30,0.35)] relative z-20"
+        />
+      </div>
+
+      {/* Brand label — CSS badge below cup, premium style */}
+      <div className="relative z-20 -mt-6 flex flex-col items-center">
+        <div className="flex items-center gap-3">
+          <span className="h-px w-8 bg-gold/60" />
+          <span className="font-display text-[11px] tracking-[0.4em] uppercase text-gold">с 2014</span>
+          <span className="h-px w-8 bg-gold/60" />
         </div>
-        <div className="absolute -top-2 inset-x-4 h-4 rounded-full bg-[color-mix(in_oklab,var(--cream)_90%,white)] shadow-md" />
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 bg-[color-mix(in_oklab,var(--pistachio)_40%,var(--cream))] px-6 py-3 rounded-full shadow-lg">
-          <span className="font-display text-sm tracking-[0.3em] uppercase text-foreground">Пряничный Дом</span>
-        </div>
+        <span className="mt-2 font-display text-lg sm:text-xl tracking-[0.3em] uppercase text-foreground/80">Пряничный Дом</span>
+        <span className="mt-1 font-script text-gold text-sm">Красноярск</span>
       </div>
     </div>
   );

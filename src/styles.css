@@ -169,9 +169,9 @@
   100% { transform: translate3d(var(--snow-x, 20px), 110vh, 0) rotate(360deg); opacity: 0; }
 }
 @keyframes steam-rise {
-  0% { transform: translate(-50%, 0) scale(0.8); opacity: 0; }
-  25% { opacity: 0.7; }
-  100% { transform: translate(calc(-50% + var(--steam-x, 0px)), -140px) scale(1.6); opacity: 0; }
+  0% { transform: translateY(0) scale(0.8); opacity: 0; }
+  20% { opacity: 0.6; }
+  100% { transform: translateX(var(--steam-x, 0px)) translateY(-140px) scale(1.5); opacity: 0; }
 }
 @keyframes hero-slide {
   0%, 28% { opacity: 1; transform: scale(1.08); }
